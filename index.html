@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Emergence of a Human-like Modular Cognitive Architecture in Large Language Models</title>
+<meta name="description" content="Across six frontier LLMs (24B–123B), reasoning is supported by four segregated neuron populations that mirror the cognitive networks of the human brain.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz@0,6..72;1,6..72&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#16181d; --muted:#5b626e; --faint:#8b919c; --line:#e6e8ec;
+    --bg:#ffffff; --soft:#f7f8fa; --accent:#2563a8;
+    --lang:#C0392B; --md:#2471A3; --phys:#E67E22; --tom:#27AE60;
+  }
+  *{box-sizing:border-box}
+  html{ -webkit-text-size-adjust:100% }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Inter",-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    font-size:17px; line-height:1.65; -webkit-font-smoothing:antialiased;
+  }
+  .wrap{ max-width:820px; margin:0 auto; padding:64px 24px 96px }
+  a{ color:var(--accent); text-decoration:none }
+  a:hover{ text-decoration:underline }
+
+  /* ---- header ---- */
+  .kicker{ text-align:center; font-size:13px; letter-spacing:.16em; text-transform:uppercase;
+           color:var(--faint); font-weight:600; margin-bottom:18px }
+  h1.title{
+    font-family:"Newsreader",Georgia,serif; font-weight:600;
+    font-size:30px; line-height:1.25; text-align:center; margin:0 0 24px;
+    letter-spacing:-.01em;
+  }
+  .authors{ text-align:center; font-size:18px; margin:0 0 6px; color:var(--ink) }
+  .authors .sep{ color:var(--faint); margin:0 .35em }
+  .affil{ text-align:center; font-size:14.5px; color:var(--muted); margin:0 0 4px }
+  .venue{ text-align:center; font-size:14px; color:var(--faint); margin:6px 0 0; font-style:italic }
+  .todo{ text-align:center; font-size:13px; color:#b08900; background:#fff8e1;
+          border:1px solid #f0e0a8; border-radius:8px; padding:7px 12px; margin:14px auto 0; max-width:560px }
+
+  .links{ display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin:28px 0 0 }
+  .btn{
+    display:inline-flex; align-items:center; gap:7px;
+    border:1px solid var(--line); background:var(--soft); color:var(--ink);
+    padding:9px 17px; border-radius:999px; font-size:14.5px; font-weight:600;
+  }
+  .btn:hover{ background:#eef1f5; text-decoration:none }
+  .btn.disabled{ color:var(--faint); background:#fafbfc; cursor:default }
+  .btn .ic{ font-size:15px }
+
+  hr.rule{ border:0; border-top:1px solid var(--line); margin:54px 0 }
+
+  /* ---- sections ---- */
+  h2{ font-family:"Newsreader",Georgia,serif; font-weight:600; font-size:27px;
+      margin:0 0 14px; letter-spacing:-.01em }
+  h2 .eyebrow{ display:block; font-family:"Inter",sans-serif; font-size:12.5px;
+      letter-spacing:.16em; text-transform:uppercase; color:var(--accent);
+      font-weight:700; margin-bottom:8px }
+  p{ margin:0 0 18px }
+  .lead{ font-size:18.5px; color:var(--ink) }
+  .abstract{ background:var(--soft); border:1px solid var(--line); border-radius:14px;
+             padding:26px 30px; margin:8px 0 0 }
+  .abstract h2{ font-size:20px; margin-bottom:10px }
+  .abstract p{ margin:0; color:#22262e }
+
+  figure{ margin:30px 0 8px; text-align:center }
+  figure img{ max-width:100%; height:auto; border:1px solid var(--line); border-radius:10px;
+              background:#fff }
+  figure img.bare{ border:none }
+  figcaption{ font-size:14px; color:var(--muted); margin-top:12px; line-height:1.55;
+              text-align:left }
+  figcaption b{ color:var(--ink) }
+
+  /* ---- numbers strip ---- */
+  .nums{ display:grid; grid-template-columns:repeat(4,1fr); gap:8px 26px; margin:22px 0 2px }
+  .num{ text-align:center; padding:2px 4px }
+  .num .v{ font-family:"Newsreader",serif; font-size:21px; font-weight:600; line-height:1; color:var(--ink) }
+  .num .l{ font-size:11px; color:var(--faint); margin-top:6px; line-height:1.4 }
+
+  /* ---- domain legend ---- */
+  .domains{ display:flex; flex-wrap:wrap; gap:10px 22px; margin:6px 0 22px;
+            font-size:14.5px; color:var(--muted) }
+  .domains span{ display:inline-flex; align-items:center; gap:8px }
+  .dot{ width:11px; height:11px; border-radius:50%; display:inline-block }
+
+  /* ---- bibtex ---- */
+  pre.bib{ background:var(--soft); border:1px solid var(--line); border-radius:12px;
+           padding:20px 22px; overflow:auto; font-size:13.5px; line-height:1.6;
+           font-family:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+           color:#2a2e36 }
+  footer{ text-align:center; color:var(--faint); font-size:13.5px; margin-top:64px;
+          border-top:1px solid var(--line); padding-top:28px }
+  /* full-width interactive hero (page opener) */
+  .hero-band{ width:100%; background:#fff }
+  .hero-band-inner{ max-width:820px; margin:0 auto; padding:14px 24px 6px }
+  .hero-band-eyebrow{ text-align:center; font-size:12px; letter-spacing:.16em;
+    text-transform:uppercase; color:var(--faint); font-weight:600; margin-bottom:8px }
+  /* shrink the horizontal demo to column width via scale (keeps the side-by-side layout) */
+  .demo-shell{ width:767px; max-width:100%; height:628px; overflow:hidden; margin:0 auto }
+  .hero-band-frame{ width:1120px; height:916px; border:none; display:block; background:#fff;
+    transform:scale(.685); transform-origin:top left }
+  .hero-band-cap{ max-width:760px; margin:14px auto 0; text-align:center;
+    font-size:13px; color:var(--muted); line-height:1.55 }
+  @media (max-width:900px){
+    .hero-band-inner{ max-width:100%; padding:12px 16px 4px }
+    .demo-shell{ width:100%; height:auto; overflow:visible }
+    .hero-band-frame{ width:100%; height:1240px; transform:none }
+  }
+  @media (max-width:640px){
+    h1.title{ font-size:29px } .wrap{ padding:44px 18px 72px }
+    .nums{ grid-template-columns:repeat(2,1fr) } body{ font-size:16px }
+  }
+</style>
+</head>
+<body>
+<div class="wrap" style="padding-bottom:30px">
+
+  <!-- ============== HEADER ============== -->
+  <div class="kicker">Neural Mechanisms of Reasoning in LLMs</div>
+  <h1 class="title">Emergence of a Human-like Modular<br>Cognitive Architecture in Large Language Models</h1>
+
+  <!-- TODO: replace Author One/Two/Three with the real author names; venue + Paper/arXiv links still pending -->
+  <p class="authors">Author One<span class="sep">·</span>Author Two<span class="sep">·</span>Author Three</p>
+  <p class="affil">Massachusetts Institute of Technology</p>
+  <p class="venue">Preprint · 2026</p>
+
+  <div class="links">
+    <a class="btn disabled" title="Available upon publication"><span class="ic">📄</span> Paper · coming soon</a>
+    <a class="btn disabled" title="Available upon publication"><span class="ic">📚</span> arXiv · coming soon</a>
+    <a class="btn" href="https://github.com/Pengrui-Han/LLM_Modularity_Final"><span class="ic">⌥</span> Code &amp; Data</a>
+  </div>
+
+</div><!-- /wrap (header) -->
+
+<!-- ============== INTERACTIVE HERO — opener, right after title + authors, full-width white ============== -->
+<div class="hero-band">
+  <div class="hero-band-inner">
+    <div class="hero-band-eyebrow">Interactive · click a domain, or watch it cycle</div>
+    <div class="demo-shell"><iframe src="hero_widget.html" title="Interactive brain-vs-LLM demo" loading="eager"
+      scrolling="no" class="hero-band-frame"></iframe></div>
+    <div class="hero-band-cap"><b>Illustrative demo — not a results figure.</b> The probe prompts
+      are scripted, and the right-hand network is a <i>schematic</i> node-link sketch: its
+      per-domain depth profile is informed by the real Qwen2.5-32B attribution, but it does not
+      render individual neurons. The left panel shows canonical literature brain networks. The
+      actual quantitative results are the figures below.</div>
+  </div>
+</div>
+
+<div class="wrap" style="padding-top:40px">
+
+  <!-- ============== ABSTRACT ============== -->
+  <div class="abstract">
+    <h2>Abstract</h2>
+    <p>The human brain exhibits a striking degree of functional specialization, with distinct
+    networks supporting language, formal reasoning, reasoning about other minds, and reasoning
+    about the physical world. Is this modular organization a fundamental principle of how
+    intelligent systems must be built, or an evolutionary accident specific to biological brains?
+    Here, we test whether a similar organization emerges in Large Language Models, another class
+    of intelligent systems that emerged through a very different optimization process. Using
+    circuit analyses across <i>N</i> = 46 tasks spanning four cognitive domains (language, formal
+    reasoning, social reasoning, physical reasoning), we find that LLMs develop a modular
+    architecture that mirrors the human brain: tasks drawing on the same network in humans recruit
+    overlapping units in LLMs, whereas tasks drawing on different networks recruit separate units.
+    The convergent emergence of modularity in biological and artificial systems suggests it
+    reflects a general principle of the organization of intelligence.</p>
+  </div>
+
+  <!-- ============== SIGNATURE FIGURE (chord) — with the abstract ============== -->
+  <figure>
+    <img class="bare" src="assets/figures/chord_overlap.png" alt="Chord diagram of top-0.1% neuron overlap across 46 tasks, averaged over six LLMs, showing four disjoint domain blocks.">
+    <figcaption><b>The signature.</b> Pairwise overlap of the top-0.1% task-selective neurons across
+      46 tasks, averaged over six frontier LLMs. Each colored arc is a cognitive domain; ribbons connect
+      task pairs that share attributed neurons. The four blocks are dense within domains and almost
+      disjoint between them.</figcaption>
+  </figure>
+
+  <div class="nums">
+    <div class="num"><div class="v">4.3×</div><div class="l">within- vs cross-domain neuron overlap (12.9% vs 3.0%)</div></div>
+    <div class="num"><div class="v">0.78</div><div class="l">Adjusted Rand Index — clustering recovers the 4 domains</div></div>
+    <div class="num"><div class="v">10.3×</div><div class="l">within- vs cross-domain causal ablation effect</div></div>
+    <div class="num"><div class="v">6</div><div class="l">frontier LLMs · 24B → 123B · 4 model families</div></div>
+  </div>
+  <div class="domains" style="justify-content:center">
+    <span><i class="dot" style="background:var(--lang)"></i>Language</span>
+    <span><i class="dot" style="background:var(--md)"></i>Formal reasoning</span>
+    <span><i class="dot" style="background:var(--phys)"></i>Physical reasoning</span>
+    <span><i class="dot" style="background:var(--tom)"></i>Social reasoning</span>
+  </div>
+
+  <hr class="rule">
+
+  <!-- ============== METHOD ============== -->
+  <section>
+    <h2><span class="eyebrow">Method</span>Localizing the units that support each task</h2>
+    <p>We localize task-supporting units with <b>attribution patching</b>. For each of
+    <b>46 tasks</b> across four cognitive domains we build minimal clean/corrupted input pairs whose
+    correct continuation flips; a unit's importance is its clean-vs-corrupted activation difference
+    times the gradient of the clean−corrupted logit difference, summed over examples. We then
+    quantify modular organization from the pairwise <b>overlap</b> of each task's top-0.1% units,
+    and validate it <b>causally</b> by ablating those units and measuring cross-task transfer.
+    Six instruction-tuned LLMs (24B–123B, four families) are analyzed.</p>
+    <figure>
+      <img class="bare" src="assets/figures/method.png" alt="Pipeline: construct minimal clean/corrupted pairs, record activations at every MLP neuron and attention head, identify task-supporting units via attribution patching, measure overlap and validate with causal ablation; with example contrastive pairs for the four cognitive domains.">
+      <figcaption><b>Figure 1. Identifying domain-specific functional organization in large language
+      models.</b> (A) Pipeline for measuring modular organization across cognitive domains. (1) For
+      each task, we construct minimal contrastive pairs of clean and corrupted inputs that elicit
+      opposite correct continuations (here, addition vs. subtraction). (2) We run both inputs through
+      the model and record activations at every MLP neuron and attention head. (3) Attribution
+      patching identifies the task-supporting units by the gradient of the logit difference between
+      the clean and corrupted continuations; this yields a causal estimate of each unit's
+      contribution to the task. (4) We measure pairwise overlap of top-attributed units across tasks
+      and validate the structure through causal ablation, revealing a modular organization aligned
+      with cognitive domains. (B) Example contrastive pairs for the four cognitive domains studied,
+      each grounded in a well-characterized functional network of the human brain: Language (the
+      language network), Formal reasoning (the multiple demand network), Physical reasoning (the
+      intuitive physics network), and Social reasoning (the theory of mind network). Across all
+      domains, clean and corrupted inputs are matched in surface form so that attribution reflects
+      the reasoning-relevant contrast rather than format.</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============== OVERLAP (structural) ============== -->
+  <section>
+    <h2><span class="eyebrow">Result · Structural</span>A modular organization of reasoning systems</h2>
+    <p>Averaged across six models, within-domain neuron overlap exceeds cross-domain overlap by
+    more than fourfold (<b>12.9% vs 3.0%</b>, permutation test <i>p</i> &lt; 0.0001). Unsupervised
+    hierarchical clustering of the 46×46 task matrix recovers the four predefined cognitive domains
+    (<b>Adjusted Rand Index = 0.78</b>, <i>p</i> &lt; 0.0001), and the overlap structure is highly
+    consistent across models (mean pairwise Kendall's τ = 0.70 ± 0.06). The domains are active in
+    the same mid-to-late layers but rely on largely non-overlapping units.</p>
+    <figure>
+      <img src="assets/figures/layer_stacked_domain_composition.png" alt="Layer-wise distribution of top-0.1% attributed neurons per domain.">
+      <figcaption><b>Modular across network depth.</b> Layer-wise distribution of the top-0.1%
+      attributed units, averaged across the six models. The four domains coexist in the same
+      mid-to-late layers using largely non-overlapping units; only Language units show a
+      substantial presence in early layers.</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============== CAUSAL ============== -->
+  <section>
+    <h2><span class="eyebrow">Result · Causal</span>Lesioning a domain's neurons selectively breaks that domain</h2>
+    <p>To test causal specificity, we ablate the top-0.1% units identified for a <i>source</i> task
+    and evaluate the model on a different <i>target</i> task. Within-domain ablations cause a
+    <b>25.9%</b> accuracy drop versus <b>2.5%</b> for cross-domain ablations
+    (<b>ratio 10.3×</b>, <i>p</i> &lt; 0.0001), consistent across models (Kendall's τ = 0.59 ± 0.05).
+    The asymmetry holds for every domain individually and in both directions of cross-domain
+    ablation.</p>
+    <figure>
+      <img src="assets/figures/ablation_3bar.png" alt="Within- versus cross-domain ablation accuracy drop.">
+      <figcaption><b>Causal specificity of task-selective units.</b> Accuracy drop on a target task
+      when the top-0.1% units of a source task are ablated, aggregated by domain membership.
+      Within-domain ablations produce substantially larger drops than cross-domain ablations.
+      Error bars: SEM across task pairs.</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============== CONTROL ============== -->
+  <section>
+    <h2><span class="eyebrow">Control</span>Modularity is contingent on task competence</h2>
+    <p>The modular organization is not an artifact of the datasets, the contrastive design, or the
+    attribution pipeline. Running the identical pipeline on GPT-2-small (124M) — which performs the
+    reasoning tasks well below chance and is competent only on Language — recovers within-domain
+    organization <i>only</i> in the Language domain, and far more weakly than in any large model.
+    Modularity emerges only where the model has actually acquired the competence.</p>
+    <figure>
+      <img src="assets/figures/accuracy_heatmap_both_correct.png" alt="Per-task both-correct accuracy across the six large models.">
+      <figcaption><b>Task competence across models.</b> Per-task both-correct accuracy for the six
+      large instruction-tuned models across the 46 tasks and four domains (chance = 0.25). Coverage
+      is high and balanced across domains, justifying the circuit analyses above.</figcaption>
+    </figure>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============== CONCLUSION ============== -->
+  <section>
+    <h2>Conclusion</h2>
+    <p>A class of intelligent systems shaped by an entirely different optimization process —
+    gradient descent on next-token prediction — develops the same broad modular organization that
+    characterizes the human brain: language, formal reasoning, social reasoning, and physical
+    reasoning are each supported by largely distinct populations of units. Because the pressures
+    usually invoked to explain cortical modularity (metabolic cost, wiring length) do not apply to
+    a transformer, this convergence suggests that modularity reflects a general principle of how
+    intelligent systems become organized when many forms of reasoning must be applied to the same
+    input without interfering with one another.</p>
+  </section>
+
+  <hr class="rule">
+
+  <!-- ============== BIBTEX ============== -->
+  <section>
+    <h2>Citation</h2>
+    <pre class="bib">@article{modularity_llm_2026,
+  title   = {Emergence of a Human-like Modular Cognitive Architecture
+             in Large Language Models},
+  author  = {TBD},
+  journal = {Preprint},
+  year    = {2026},
+  note    = {Citation and links to be finalized upon publication}
+}</pre>
+  </section>
+
+  <footer>
+    Code &amp; data: <a href="https://github.com/Pengrui-Han/LLM_Modularity_Final">github.com/Pengrui-Han/LLM_Modularity_Final</a><br>
+    Academic project page · white theme · 2026
+  </footer>
+
+</div>
+</body>
+</html>

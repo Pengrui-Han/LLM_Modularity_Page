@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Interactive demo — brain ↔ LLM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  /* ===== WHITE / ACADEMIC theme override of the dark hero stage ===== */
+  :root{
+    --bg:#ffffff; --ink:#16181d; --ink-mute:#3f444e; --ink-faint:#9aa0ab;
+    --line:#e7e9ed; --line-strong:#d7dbe1; --accent:#D9772E;
+  }
+  html,body{ margin:0; background:#ffffff; }
+  .hero{ min-height:0; padding:30px 22px 22px; background:#ffffff; border-bottom:none; }
+  .hero-inner{ max-width:1180px; margin:0 auto; }
+  .hero-stage{ margin-top:0; }
+
+  /* terminal card -> light */
+  .prompt-shell{ background:#ffffff; border:1px solid var(--line); box-shadow:0 1px 2px rgba(20,24,30,.04); }
+  .prompt-bar{ background:#f6f7f9; border-bottom:1px solid var(--line); }
+  .prompt-title{ color:var(--ink-faint); }
+  .prompt-line{ color:var(--ink); }
+  .prompt-caret{ background:var(--ink); }
+  .prompt-chip{ background:#ffffff; }
+  .stage-tile{ background:transparent; border:none; }
+  .stage-tile .stage-tag{ border-bottom:1px solid var(--line); }
+  .stage-tile-brain .stage-brain-wrap{ background:transparent; }
+
+  /* neural-net node-link on white: faint grey lattice + colored live circuit */
+  .nn-layer-well{ fill:rgba(20,24,30,.025); }
+  .nn-edge{ stroke:rgba(20,24,30,.06); }
+  .nn-node{ fill:#ccd1d9; stroke:#e3e6ea; }
+  .nn-label{ fill:var(--ink-faint); }
+  /* keep non-active components a faint grey (not white) when a domain is live */
+  #stage-nn.is-lang .nn-edge:not(.circ-lang),
+  #stage-nn.is-md   .nn-edge:not(.circ-md),
+  #stage-nn.is-phys .nn-edge:not(.circ-phys),
+  #stage-nn.is-tom  .nn-edge:not(.circ-tom){ stroke:rgba(20,24,30,.05); }
+  #stage-nn.is-lang .nn-node:not(.circ-lang),
+  #stage-nn.is-md   .nn-node:not(.circ-md),
+  #stage-nn.is-phys .nn-node:not(.circ-phys),
+  #stage-nn.is-tom  .nn-node:not(.circ-tom){ fill:#d6dae0; stroke:#e6e9ed; }
+
+  /* pills -> white with colored dot; active = solid colored */
+  .stage-pill{ background:#ffffff; border:1px solid #d9dde3; color:#4a4f59; }
+  .stage-pill span{ background:var(--c); }
+  .stage-pill:hover{ border-color:var(--c); }
+  .stage-pill.active{ background:var(--c); border-color:var(--c); color:#ffffff; }
+  .stage-pill.active span{ background:#ffffff; }
+
+  /* legibility — this widget is shown scaled (~0.69) inside the page, so bump
+     the small grey labels and pills at the source so they read clearly */
+  .prompt-tag, .stage-tag{ font-size:15px; }
+  .stage-tile .stage-tag{ font-size:18px; letter-spacing:.16em; }
+  .stage-tile .stage-tag .tag-sub{ font-size:14px; letter-spacing:.05em; }
+  .stage-pill{ font-size:15px; padding:11px 20px 11px 17px; }
+  .stage-pill span{ width:11px; height:11px; }
+</style>
+</head>
+<body>
+
+<section class="hero">
+  <canvas id="neurons-bg"></canvas>
+  <div class="hero-inner">
+    <div class="hero-stage">
+      <div class="stage-row">
+
+        <!-- LEFT: prompt typewriter -->
+        <div class="stage-left">
+          <div class="prompt-tag">INPUT</div>
+          <div class="prompt-shell">
+            <div class="prompt-bar">
+              <span class="dot d-r"></span>
+              <span class="dot d-y"></span>
+              <span class="dot d-g"></span>
+              <span class="prompt-title">probe.py · live</span>
+            </div>
+            <div class="prompt-body">
+              <div class="prompt-line"><span class="prompt-gt">&gt;</span> <span id="prompt-text"></span><span class="prompt-caret">&nbsp;</span></div>
+              <div class="prompt-ans">
+                <span class="prompt-ans-lab">→ predicts</span>
+                <span id="prompt-answer"></span>
+              </div>
+            </div>
+            <div class="prompt-foot">
+              <span class="prompt-foot-lab">activates</span>
+              <span id="prompt-domain-chip" class="prompt-chip">Language network</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: brain (top) + real-data neural-net (bottom) -->
+        <div class="stage-right">
+          <div class="stage-tile stage-tile-brain">
+            <div class="stage-tag">HUMAN BRAIN <span class="tag-sub">· canonical cognitive networks</span></div>
+            <div class="stage-brain-wrap" id="stage-brain">
+              <img class="stage-base"               src="assets/brains/base.png"         alt="left hemisphere cortical surface">
+              <img class="stage-overlay stage-lang" src="assets/brains/lang_overlay.png" alt="">
+              <img class="stage-overlay stage-md"   src="assets/brains/md_overlay.png"   alt="">
+              <img class="stage-overlay stage-phys" src="assets/brains/phys_overlay.png" alt="">
+              <img class="stage-overlay stage-tom"  src="assets/brains/tom_overlay.png"  alt="">
+              <div class="stage-pulse"></div>
+            </div>
+          </div>
+
+          <div class="stage-tile stage-tile-nn">
+            <div class="stage-tag">LANGUAGE MODEL <span class="tag-sub">· illustrative circuit (schematic)</span></div>
+            <svg id="stage-nn" class="stage-nn" viewBox="0 0 520 250" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <g id="nn-layer-labels"></g>
+              <g id="nn-edges"></g>
+              <g id="nn-nodes"></g>
+            </svg>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- clickable pills — switch domain for both brain and model -->
+      <div class="stage-pills">
+        <button class="stage-pill" data-domain="lang"  style="--c:#C0392B"><span></span>Language</button>
+        <button class="stage-pill" data-domain="md"    style="--c:#2471A3"><span></span>Formal</button>
+        <button class="stage-pill" data-domain="phys"  style="--c:#E67E22"><span></span>Physics</button>
+        <button class="stage-pill" data-domain="tom"   style="--c:#27AE60"><span></span>Social</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script src="assets/real_layers.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
