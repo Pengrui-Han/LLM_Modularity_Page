@@ -157,9 +157,53 @@
     .tx-row-lab{ flex:0 0 100%; padding-top:0 }
     .tx-cols{ grid-template-columns:1fr }
   }
+
+  /* ---- table of contents (left sticky nav) ---- */
+  .toc{
+    position:fixed; top:140px;
+    left:max(20px, calc(50vw - 600px));
+    width:190px;
+    font-size:13.5px; line-height:1.55; color:var(--muted);
+    max-height:calc(100vh - 180px); overflow-y:auto; padding-right:6px;
+    /* hidden by default; fades in once the reader enters Method */
+    opacity:0; transform:translateX(-8px); pointer-events:none;
+    transition:opacity .35s ease, transform .35s ease;
+  }
+  .toc.visible{ opacity:1; transform:none; pointer-events:auto }
+  .toc-head{
+    font-size:11px; letter-spacing:.18em; text-transform:uppercase;
+    font-weight:700; color:var(--faint); margin-bottom:14px;
+  }
+  .toc ol{ list-style:none; padding:0; margin:0 }
+  .toc li{ margin:0 0 12px }
+  .toc a{
+    color:var(--muted); text-decoration:none; display:block;
+    border-left:2px solid transparent;
+    padding:2px 0 2px 10px; margin-left:-12px;
+    transition:color .12s, border-color .12s;
+  }
+  .toc a:hover{ color:var(--ink); text-decoration:none }
+  .toc a.current{ color:var(--ink); border-left-color:var(--accent); font-weight:600 }
+  section[id], .abstract[id]{ scroll-margin-top: 24px }
+  @media (max-width:1180px){ .toc{ display:none } }
 </style>
 </head>
 <body>
+
+<nav class="toc" aria-label="Table of contents">
+  <div class="toc-head">Contents</div>
+  <ol>
+    <li><a href="#abstract">Abstract</a></li>
+    <li><a href="#method">Method</a></li>
+    <li><a href="#explore">The 46 tasks · one example each</a></li>
+    <li><a href="#structural">A modular organization of reasoning systems</a></li>
+    <li><a href="#causal">Lesioning a domain's neurons breaks it</a></li>
+    <li><a href="#control">Modularity is contingent on task competence</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+    <li><a href="#citation">Citation</a></li>
+  </ol>
+</nav>
+
 <div class="wrap" style="padding-bottom:30px">
 
   <!-- ============== HEADER ============== -->
@@ -196,7 +240,7 @@
 <div class="wrap" style="padding-top:40px">
 
   <!-- ============== ABSTRACT ============== -->
-  <div class="abstract">
+  <div class="abstract" id="abstract">
     <h2>Abstract</h2>
     <p>The human brain exhibits a striking degree of functional specialization, with distinct
     networks supporting language, formal reasoning, reasoning about other minds, and reasoning
@@ -237,7 +281,7 @@
   <hr class="rule">
 
   <!-- ============== METHOD ============== -->
-  <section>
+  <section id="method">
     <h2><span class="eyebrow">Method</span>Localizing the units that support each task</h2>
     <p>We localize task-supporting units with <b>attribution patching</b>. For each of
     <b>46 tasks</b> across four cognitive domains we build minimal clean/corrupted input pairs whose
@@ -269,7 +313,7 @@
   <hr class="rule">
 
   <!-- ============== TASK EXPLORER ============== -->
-  <section>
+  <section id="explore">
     <h2><span class="eyebrow">Explore</span>The 46 tasks · one example each</h2>
     <p>Each task is defined by minimal <b>clean</b> / <b>corrupted</b> input pairs whose
     correct continuation flips. Click any task below to see one representative pair —
@@ -286,7 +330,7 @@
   <hr class="rule">
 
   <!-- ============== OVERLAP (structural) ============== -->
-  <section>
+  <section id="structural">
     <h2><span class="eyebrow">Result · Structural</span>A modular organization of reasoning systems</h2>
     <p>Averaged across six models, within-domain neuron overlap exceeds cross-domain overlap by
     more than fourfold (<b>12.9% vs 3.0%</b>, permutation test <i>p</i> &lt; 0.0001). Unsupervised
@@ -306,7 +350,7 @@
   <hr class="rule">
 
   <!-- ============== CAUSAL ============== -->
-  <section>
+  <section id="causal">
     <h2><span class="eyebrow">Result · Causal</span>Lesioning a domain's neurons selectively breaks that domain</h2>
     <p>To test causal specificity, we ablate the top-0.1% units identified for a <i>source</i> task
     and evaluate the model on a different <i>target</i> task. Within-domain ablations cause a
@@ -326,7 +370,7 @@
   <hr class="rule">
 
   <!-- ============== CONTROL ============== -->
-  <section>
+  <section id="control">
     <h2><span class="eyebrow">Control</span>Modularity is contingent on task competence</h2>
     <p>The modular organization is not an artifact of the datasets, the contrastive design, or the
     attribution pipeline. Running the identical pipeline on GPT-2-small (124M) — which performs the
@@ -344,7 +388,7 @@
   <hr class="rule">
 
   <!-- ============== CONCLUSION ============== -->
-  <section>
+  <section id="conclusion">
     <h2>Conclusion</h2>
     <p>A class of intelligent systems shaped by an entirely different optimization process —
     gradient descent on next-token prediction — develops the same broad modular organization that
@@ -359,7 +403,7 @@
   <hr class="rule">
 
   <!-- ============== BIBTEX ============== -->
-  <section>
+  <section id="citation">
     <h2>Citation</h2>
     <pre class="bib">@article{modularity_llm_2026,
   title   = {Emergence of a Human-like Modular Cognitive Architecture
@@ -441,6 +485,42 @@
     panel.innerHTML = '<i style="color:var(--muted)">Could not load task examples ('
                     + esc(err && err.message || err) + ').</i>';
   });
+})();
+</script>
+
+<script>
+(function(){
+  const toc   = document.querySelector('.toc');
+  const links = Array.from(document.querySelectorAll('.toc a'));
+  if (!toc || !links.length) return;
+  const map = new Map(links.map(a => [a.getAttribute('href').slice(1), a]));
+  const targets = Array.from(map.keys())
+    .map(id => document.getElementById(id))
+    .filter(Boolean);
+  let current = null;
+  function setActive(id){
+    if (current === id) return;
+    if (current && map.has(current)) map.get(current).classList.remove('current');
+    if (id && map.has(id)) map.get(id).classList.add('current');
+    current = id;
+  }
+  function update(){
+    // (1) Reveal TOC as soon as the reader scrolls a fingertip past the top.
+    //     Keeps the absolute landing pose clean but feels near-immediate.
+    toc.classList.toggle('visible', window.scrollY > 120);
+    // (2) Highlight the topmost section whose top is at or just above the trigger line.
+    const trigger = window.innerHeight * 0.25;
+    let pick = targets[0] ? targets[0].id : null;
+    for (const t of targets){
+      const r = t.getBoundingClientRect();
+      if (r.top - trigger <= 0) pick = t.id;
+      else break;
+    }
+    setActive(pick);
+  }
+  window.addEventListener('scroll', update, { passive:true });
+  window.addEventListener('resize', update);
+  update();
 })();
 </script>
 </body>
