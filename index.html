@@ -112,6 +112,51 @@
     h1.title{ font-size:29px } .wrap{ padding:44px 18px 72px }
     .nums{ grid-template-columns:repeat(2,1fr) } body{ font-size:16px }
   }
+
+  /* ---- task explorer ---- */
+  .tx-grid{ display:flex; flex-direction:column; gap:14px; margin:6px 0 18px }
+  .tx-row{ display:flex; align-items:flex-start; gap:14px; flex-wrap:wrap }
+  .tx-row-lab{ flex:0 0 92px; font-size:12px; letter-spacing:.16em;
+               text-transform:uppercase; font-weight:700; padding-top:7px; color:var(--c) }
+  .tx-chips{ display:flex; flex-wrap:wrap; gap:7px; flex:1 }
+  .tx-chip{ display:inline-flex; align-items:center; gap:7px;
+            border:1px solid var(--line); background:#fff; color:var(--ink);
+            padding:5px 11px; border-radius:999px; font-size:12.5px;
+            font-family:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+            cursor:pointer; line-height:1.4; transition:background .12s, border-color .12s }
+  .tx-chip:hover{ border-color:var(--c) }
+  .tx-chip.active{ background:var(--c); border-color:var(--c); color:#fff }
+  .tx-chip .tx-dot{ width:7px; height:7px; border-radius:50%; background:var(--c) }
+  .tx-chip.active .tx-dot{ background:#fff }
+  .tx-panel{ border:1px solid var(--line); border-radius:14px; background:var(--soft);
+             padding:20px 22px 16px; margin-top:10px }
+  .tx-panel-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:14px;
+                  flex-wrap:wrap }
+  .tx-panel-dom{ font-size:11px; letter-spacing:.16em; text-transform:uppercase;
+                 font-weight:700; color:var(--c) }
+  .tx-panel-task{ font-family:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+                  font-size:13.5px; color:var(--ink); font-weight:600 }
+  .tx-panel-n{ margin-left:auto; font-size:12px; color:var(--faint) }
+  .tx-cols{ display:grid; grid-template-columns:1fr 1fr; gap:14px }
+  .tx-card{ background:#fff; border:1px solid var(--line); border-left:3px solid var(--card-c);
+            border-radius:10px; padding:13px 15px }
+  .tx-card.clean{ --card-c:#27ae60 }
+  .tx-card.corr{  --card-c:#c0392b }
+  .tx-card-lab{ font-size:10.5px; letter-spacing:.18em; text-transform:uppercase;
+                font-weight:700; color:var(--card-c); margin-bottom:8px }
+  .tx-card-text{ font-family:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace;
+                 font-size:13px; line-height:1.55; color:#23272d;
+                 white-space:pre-wrap; word-break:break-word }
+  .tx-card-cont{ font-size:13px; line-height:1.5; margin-top:8px;
+                 padding-top:8px; border-top:1px dashed var(--line);
+                 font-family:"SF Mono",ui-monospace,"JetBrains Mono",Menlo,Consolas,monospace }
+  .tx-card-cont .arr{ color:var(--card-c); font-weight:700; margin-right:6px }
+  .tx-card-cont .cont{ color:var(--card-c); font-weight:600 }
+  @media (max-width:640px){
+    .tx-row{ gap:8px }
+    .tx-row-lab{ flex:0 0 100%; padding-top:0 }
+    .tx-cols{ grid-template-columns:1fr }
+  }
 </style>
 </head>
 <body>
@@ -223,6 +268,23 @@
 
   <hr class="rule">
 
+  <!-- ============== TASK EXPLORER ============== -->
+  <section>
+    <h2><span class="eyebrow">Explore</span>The 46 tasks · one example each</h2>
+    <p>Each task is defined by minimal <b>clean</b> / <b>corrupted</b> input pairs whose
+    correct continuation flips. Click any task below to see one representative pair —
+    the clean (original) prompt and its correct continuation in green; the corrupted
+    (alternative) prompt and the flipped continuation in red.</p>
+    <div class="tx-grid" id="tx-grid"><!-- populated by JS --></div>
+    <div class="tx-panel" id="tx-panel"><!-- populated by JS --></div>
+    <p style="font-size:13px;color:var(--muted);margin-top:14px">
+      One example per task; full datasets (the count shown per task) are in the
+      <a href="https://github.com/Pengrui-Han/LLM_Modularity_Final/tree/main/data">code repository</a>.
+    </p>
+  </section>
+
+  <hr class="rule">
+
   <!-- ============== OVERLAP (structural) ============== -->
   <section>
     <h2><span class="eyebrow">Result · Structural</span>A modular organization of reasoning systems</h2>
@@ -315,5 +377,71 @@
   </footer>
 
 </div>
+
+<script>
+(function(){
+  const ORDER  = ['Language','Formal','Physics','Social'];
+  const COLOR  = {Language:'#C0392B', Formal:'#2471A3', Physics:'#E67E22', Social:'#27AE60'};
+  const grid   = document.getElementById('tx-grid');
+  const panel  = document.getElementById('tx-panel');
+  if (!grid || !panel) return;
+  const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+                            .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+
+  fetch('tasks_examples.json').then(r => r.json()).then(data => {
+    const byDom = Object.fromEntries(ORDER.map(d => [d, []]));
+    for (const t of data) (byDom[t.domain] || (byDom[t.domain]=[])).push(t);
+
+    for (const dom of ORDER) {
+      const row = document.createElement('div');
+      row.className = 'tx-row';
+      row.style.setProperty('--c', COLOR[dom]);
+      row.innerHTML = `<div class="tx-row-lab">${dom}</div>`;
+      const chips = document.createElement('div');
+      chips.className = 'tx-chips';
+      for (const t of byDom[dom]) {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'tx-chip';
+        btn.dataset.task = t.task;
+        btn.innerHTML = `<span class="tx-dot"></span>${esc(t.display)}`;
+        btn.addEventListener('click', () => show(t));
+        chips.appendChild(btn);
+      }
+      row.appendChild(chips);
+      grid.appendChild(row);
+    }
+
+    function show(t) {
+      document.querySelectorAll('.tx-chip.active').forEach(el => el.classList.remove('active'));
+      const btn = document.querySelector('.tx-chip[data-task="' + (window.CSS && CSS.escape ? CSS.escape(t.task) : t.task) + '"]');
+      if (btn) btn.classList.add('active');
+      panel.style.setProperty('--c', t.color);
+      panel.innerHTML = `
+        <div class="tx-panel-head">
+          <span class="tx-panel-dom">${esc(t.domain)}</span>
+          <span class="tx-panel-task">${esc(t.display)}</span>
+          <span class="tx-panel-n">${Number(t.n_examples).toLocaleString()} pairs in dataset</span>
+        </div>
+        <div class="tx-cols">
+          <div class="tx-card clean">
+            <div class="tx-card-lab">Clean · original</div>
+            <div class="tx-card-text">${esc(t.clean.prompt)}</div>
+            <div class="tx-card-cont"><span class="arr">→</span><span class="cont">${esc(t.clean.cont)}</span></div>
+          </div>
+          <div class="tx-card corr">
+            <div class="tx-card-lab">Corrupted · alternative</div>
+            <div class="tx-card-text">${esc(t.corrupted.prompt)}</div>
+            <div class="tx-card-cont"><span class="arr">→</span><span class="cont">${esc(t.corrupted.cont)}</span></div>
+          </div>
+        </div>`;
+    }
+    if (data.length) show(data[0]);
+  }).catch(err => {
+    panel.innerHTML = '<i style="color:var(--muted)">Could not load task examples ('
+                    + esc(err && err.message || err) + ').</i>';
+  });
+})();
+</script>
 </body>
 </html>

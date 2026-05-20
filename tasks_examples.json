@@ -1,0 +1,738 @@
+[
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "anaphor_gender_agreement",
+  "display": "anaphor gender agreement",
+  "n_examples": 1100,
+  "clean": {
+   "prompt": "Katherine can't help",
+   "cont": "herself"
+  },
+  "corrupted": {
+   "prompt": "Lawrence can't help",
+   "cont": "himself"
+  }
+ },
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "det_noun_agreement_irregular",
+  "display": "det noun agreement irregular",
+  "n_examples": 932,
+  "clean": {
+   "prompt": "Adam hadn't discussed these",
+   "cont": "analyses"
+  },
+  "corrupted": {
+   "prompt": "Adam hadn't discussed this",
+   "cont": "analysis"
+  }
+ },
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "det_noun_agreement_regular",
+  "display": "det noun agreement regular",
+  "n_examples": 1100,
+  "clean": {
+   "prompt": "A screen bores that",
+   "cont": "customer"
+  },
+  "corrupted": {
+   "prompt": "A screen bores those",
+   "cont": "customers"
+  }
+ },
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "det_noun_agreement_with_adjective",
+  "display": "det noun agreement with adjective",
+  "n_examples": 1100,
+  "clean": {
+   "prompt": "Deborah scans this good",
+   "cont": "documentary"
+  },
+  "corrupted": {
+   "prompt": "Deborah scans these good",
+   "cont": "documentaries"
+  }
+ },
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "subject_verb_agreement",
+  "display": "subject verb agreement",
+  "n_examples": 1100,
+  "clean": {
+   "prompt": "The doctors",
+   "cont": "respect"
+  },
+  "corrupted": {
+   "prompt": "The doctor",
+   "cont": "respects"
+  }
+ },
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "npi",
+  "display": "npi",
+  "n_examples": 304,
+  "clean": {
+   "prompt": "No author that liked no senators has had",
+   "cont": "any"
+  },
+  "corrupted": {
+   "prompt": "The author that liked no senators has had",
+   "cont": "some"
+  }
+ },
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "hypernymy",
+  "display": "hypernymy",
+  "n_examples": 577,
+  "clean": {
+   "prompt": " diamonds, and other",
+   "cont": "gem"
+  },
+  "corrupted": {
+   "prompt": " folk, and other",
+   "cont": "music"
+  }
+ },
+ {
+  "domain": "Language",
+  "domainKey": "Lan",
+  "color": "#C0392B",
+  "task": "wug",
+  "display": "wug",
+  "n_examples": 2664,
+  "clean": {
+   "prompt": "First, there was one utetornity. Now there are two utetorn",
+   "cont": "ities"
+  },
+  "corrupted": {
+   "prompt": "First, there were two utetornities. Now there is one utetorn",
+   "cont": "ity"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "logic_syllogism_1",
+  "display": "logic syllogism 1",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "Given: No florists are chefs. Some florists are actors. Does it follow that All actors are not chefs?",
+   "cont": "No"
+  },
+  "corrupted": {
+   "prompt": "Given: No florists are chefs. Some florists are actors. Does it follow that Some actors are not chefs?",
+   "cont": "Yes"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "logic_syllogism_symbolic",
+  "display": "logic syllogism symbolic",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "Given: ∃x(Q(x) ∧ K(x)). ∀x(K(x) → S(x)). Which of the following is right? ∀x(S(x) → ¬Q(x)) or ∃x(S(x) ∧ Q(x))?",
+   "cont": "∃x(S(x) ∧ Q(x))"
+  },
+  "corrupted": {
+   "prompt": "Given: ∃x(Q(x) ∧ K(x)). ∀x(K(x) → S(x)). Which of the following is wrong? ∀x(S(x) → ¬Q(x)) or ∃x(S(x) ∧ Q(x))?",
+   "cont": "∀x(S(x) → ¬Q(x))"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "logic_propositional_1",
+  "display": "logic propositional 1",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "Given: If judges are brave, then judges are rich. judges are brave. Which of the following is right? judges are rich or judges may not be rich?",
+   "cont": "judges are rich"
+  },
+  "corrupted": {
+   "prompt": "Given: If judges are brave, then judges are rich. judges are brave. Which of the following is wrong? judges are rich or judges may not be rich?",
+   "cont": "judges may not be rich"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "logic_propositional_symbolic",
+  "display": "logic propositional symbolic",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "Given: Q → ¬F. Q. Which of the following is right? Option1: ¬F. Option2: F. Reply with Option1 or Option2.",
+   "cont": "Option1"
+  },
+  "corrupted": {
+   "prompt": "Given: Q → ¬F. Q. Which of the following is wrong? Option1: ¬F. Option2: F. Reply with Option1 or Option2.",
+   "cont": "Option2"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "number_sequence",
+  "display": "number sequence",
+  "n_examples": 946,
+  "clean": {
+   "prompt": "-3, ?, -1, -1, -1",
+   "cont": "-2"
+  },
+  "corrupted": {
+   "prompt": "-3, -2, -1, -1, ?",
+   "cont": "-1"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "add_sub_2op_verbal",
+  "display": "add sub 2op verbal",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "eight hundred and fifty-eight minus three hundred and forty-one equals",
+   "cont": "five hundred and seventeen"
+  },
+  "corrupted": {
+   "prompt": "eight hundred and fifty-eight minus three hundred and forty-six equals",
+   "cont": "five hundred and twelve"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "add_sub_2op_symbolic",
+  "display": "add sub 2op symbolic",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "862 - 158 =",
+   "cont": "704"
+  },
+  "corrupted": {
+   "prompt": "862 - 128 =",
+   "cont": "734"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "add_sub_3op_verbal",
+  "display": "add sub 3op verbal",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "seven hundred and forty-three minus five hundred and two plus six hundred and seventy-five equals",
+   "cont": "nine hundred and sixteen"
+  },
+  "corrupted": {
+   "prompt": "seven hundred and forty-three minus five hundred and seven plus six hundred and seventy-five equals",
+   "cont": "nine hundred and eleven"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "add_sub_3op_symbolic",
+  "display": "add sub 3op symbolic",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "360 + 636 - 396 =",
+   "cont": "600"
+  },
+  "corrupted": {
+   "prompt": "360 + 635 - 396 =",
+   "cont": "599"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "mul_div_2op_verbal",
+  "display": "mul div 2op verbal",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "twenty-one times sixty-two equals",
+   "cont": "one thousand, three hundred and two"
+  },
+  "corrupted": {
+   "prompt": "twenty-nine times sixty-two equals",
+   "cont": "one thousand, seven hundred and ninety-eight"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "mul_div_2op_symbolic",
+  "display": "mul div 2op symbolic",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "91 * 24 =",
+   "cont": "2184"
+  },
+  "corrupted": {
+   "prompt": "91 * 27 =",
+   "cont": "2457"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "mul_div_3op_verbal",
+  "display": "mul div 3op verbal",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "fourteen times fifty-eight times seventy-eight equals",
+   "cont": "sixty-three thousand, three hundred and thirty-six"
+  },
+  "corrupted": {
+   "prompt": "eighteen times fifty-eight times seventy-eight equals",
+   "cont": "eighty-one thousand, four hundred and thirty-two"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "mul_div_3op_symbolic",
+  "display": "mul div 3op symbolic",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "91 * 24 * 13 =",
+   "cont": "28392"
+  },
+  "corrupted": {
+   "prompt": "98 * 24 * 13 =",
+   "cont": "30576"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "simple_equation",
+  "display": "simple equation",
+  "n_examples": 995,
+  "clean": {
+   "prompt": "Find the value of u in the equation: 8*u + 1 = 185",
+   "cont": "23"
+  },
+  "corrupted": {
+   "prompt": "Find the value of u in the equation: 8*u + 1 = 193",
+   "cont": "24"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "number_sorting",
+  "display": "number sorting",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "Sort these numbers in ascending order: -38.9, -26.0, 24.0, 9.0, -47.0\nPlease follow the instruction below:\n## 1. Let all your answers be a list of numbers. Instead of reporting your answer as -69, -13, 1, 7, 11, 43, 59, 61, use ['-69', '-13', '1', '7', '11', '43', '59', '61'] instead\n## 2. Convert all numbers in the square brackets as strings. For example, ['-69', '-13', '1', '7', '11', '43', '59', '61']\n",
+   "cont": "['-47.0', '-38.9', '-26.0', '9.0', '24.0']"
+  },
+  "corrupted": {
+   "prompt": "Sort these numbers in descending order: -38.9, -26.0, 24.0, 9.0, -47.0\nPlease follow the instruction below:\n## 1. Let all your answers be a list of numbers. Instead of reporting your answer as -69, -13, 1, 7, 11, 43, 59, 61, use ['-69', '-13', '1', '7', '11', '43', '59', '61'] instead\n## 2. Convert all numbers in the square brackets as strings. For example, ['-69', '-13', '1', '7', '11', '43', '59', '61']\n",
+   "cont": "['24.0', '9.0', '-26.0', '-38.9', '-47.0']"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "code_conditional",
+  "display": "code conditional",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What does the following code print?\n\n```\ndef process(y):\n    if y < 48:\n        return \"pass\"\n    else:\n        return \"fail\"\n\nprint(process(57))\n```\n\nAnswer with just the printed value, no quotes or explanation.",
+   "cont": "fail"
+  },
+  "corrupted": {
+   "prompt": "What does the following code print?\n\n```\ndef process(y):\n    if y > 48:\n        return \"pass\"\n    else:\n        return \"fail\"\n\nprint(process(57))\n```\n\nAnswer with just the printed value, no quotes or explanation.",
+   "cont": "pass"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "code_loop",
+  "display": "code loop",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What does the following code print?\n\n```\ndef calculate():\n    x = 0\n    for k in range(7):\n        x += k * 2\n    return x\n\nprint(calculate())\n```\n\nAnswer with just the number, nothing else.",
+   "cont": "42"
+  },
+  "corrupted": {
+   "prompt": "What does the following code print?\n\n```\ndef calculate():\n    x = 0\n    for k in range(3):\n        x += k * 2\n    return x\n\nprint(calculate())\n```\n\nAnswer with just the number, nothing else.",
+   "cont": "6"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "code_list",
+  "display": "code list",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What does the following code print?\n\n```\ndef lookup():\n    items = [\"violin\", \"guitar\", \"harp\", \"piano\"]\n    return items[3]\n\nprint(lookup())\n```\n\nAnswer with just the printed value, no quotes or explanation.",
+   "cont": "piano"
+  },
+  "corrupted": {
+   "prompt": "What does the following code print?\n\n```\ndef lookup():\n    items = [\"violin\", \"guitar\", \"harp\", \"piano\"]\n    return items[0]\n\nprint(lookup())\n```\n\nAnswer with just the printed value, no quotes or explanation.",
+   "cont": "violin"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "code_A",
+  "display": "code A",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What does the following code print?\n\n```\ndef evaluate(num):\n    if num % 3 == 2:\n        return \"left\"\n    else:\n        return \"right\"\n\nprint(evaluate(34))\n```\n\nAnswer with just the output value, nothing else.",
+   "cont": "right"
+  },
+  "corrupted": {
+   "prompt": "What does the following code print?\n\n```\ndef evaluate(num):\n    if num % 3 == 1:\n        return \"left\"\n    else:\n        return \"right\"\n\nprint(evaluate(34))\n```\n\nAnswer with just the output value, nothing else.",
+   "cont": "left"
+  }
+ },
+ {
+  "domain": "Formal",
+  "domainKey": "MD",
+  "color": "#2471A3",
+  "task": "code_B",
+  "display": "code B",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What does the following code print?\n\n```\ndef lookup():\n    s = \"one two three four\"\n    return s.split()[1]\n\nprint(lookup())\n```\n\nAnswer with just the printed value, no quotes or explanation.",
+   "cont": "two"
+  },
+  "corrupted": {
+   "prompt": "What does the following code print?\n\n```\ndef lookup():\n    s = \"one two three four\"\n    return s.split()[2]\n\nprint(lookup())\n```\n\nAnswer with just the printed value, no quotes or explanation.",
+   "cont": "three"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "phys_newton",
+  "display": "phys newton",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "I am packing a backpack. Which of clothes hamper and ice cream should I put at the top?",
+   "cont": "ice cream"
+  },
+  "corrupted": {
+   "prompt": "I am packing a backpack. Which of clothes hamper and ice cream should I put at the bottom?",
+   "cont": "clothes hamper"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "phys_prost",
+  "display": "phys prost",
+  "n_examples": 1200,
+  "clean": {
+   "prompt": "A person is trying to stack a bottle and a brick. Which one is easier to stack?",
+   "cont": "brick"
+  },
+  "corrupted": {
+   "prompt": "A person is trying to stack a bottle and a brick. Which one is harder to stack?",
+   "cont": "bottle"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "physics_buoyancy",
+  "display": "physics buoyancy",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What is the physical outcome in the following contexts? Context: Yuki set a lead fishing weight into a bowl of clean water. Answer: sinks Context: Yuki dropped a hollow rubber duck into the bath tub water. Answer: floats Context: Omar set a bead of honey into a cup of light rubbing alcohol. Answer:",
+   "cont": "floats"
+  },
+  "corrupted": {
+   "prompt": "What is the physical outcome in the following contexts? Context: Yuki set a lead fishing weight into a bowl of clean water. Answer: sinks Context: Yuki dropped a hollow rubber duck into the bath tub water. Answer: floats Context: Omar put a whole raw egg into a glass of plain fresh water. Answer:",
+   "cont": "sinks"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "physics_brightness",
+  "display": "physics brightness",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What is the physical outcome in the following contexts? Context: Sunlight hitting a stack of wet peat moss in the garden bed. Answer: absorbs Context: A lamp shining on a smooth glass window pane from inside at night. Answer: reflects Context: A flashlight pointed at a piece of rough charcoal on the table. Answer:",
+   "cont": "absorbs"
+  },
+  "corrupted": {
+   "prompt": "What is the physical outcome in the following contexts? Context: Sunlight hitting a stack of wet peat moss in the garden bed. Answer: absorbs Context: A lamp shining on a smooth glass window pane from inside at night. Answer: reflects Context: A flashlight pointed at the shiny steel blade of a kitchen knife. Answer:",
+   "cont": "reflects"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "physics_elasticity",
+  "display": "physics elasticity",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A dense rubber stopper dropped onto the lab bench from the shelf. Answer: bounces Context: A thin crystal dish that fell off the table onto the stone floor. Answer: breaks Context: A glass lamp shade that fell from the counter onto the tile floor. Answer:",
+   "cont": "breaks"
+  },
+  "corrupted": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A dense rubber stopper dropped onto the lab bench from the shelf. Answer: bounces Context: A thin crystal dish that fell off the table onto the stone floor. Answer: breaks Context: A racquetball Luca served hard against the wall of the court. Answer:",
+   "cont": "bounces"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "physics_solubility",
+  "display": "physics solubility",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A sachet of gelatin powder Aya sprinkled into a bowl of hot liquid. Answer: dissolves Context: A handful of tile fragments Aya dropped into a basin of still water. Answer: settles Context: A spoonful of ground pottery Noor stirred into a cup of still water. Answer:",
+   "cont": "settles"
+  },
+  "corrupted": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A sachet of gelatin powder Aya sprinkled into a bowl of hot liquid. Answer: dissolves Context: A handful of tile fragments Aya dropped into a basin of still water. Answer: settles Context: A piece of hard toffee Noor dropped into a cup of boiling water. Answer:",
+   "cont": "dissolves"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "physics_speed",
+  "display": "physics speed",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A sailboat has a strong tailwind on calm open water. Answer: fast Context: A disk is sliding across a table covered in sticky tree sap. Answer: slow Context: A block is moving on a surface covered in a layer of tar. Answer:",
+   "cont": "slow"
+  },
+  "corrupted": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A sailboat has a strong tailwind on calm open water. Answer: fast Context: A disk is sliding across a table covered in sticky tree sap. Answer: slow Context: A rock is tumbling down a steep bare cliff with no trees. Answer:",
+   "cont": "fast"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "physics_stability",
+  "display": "physics stability",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What is the physical outcome in the following contexts? Context: Chao nailed the wooden plank firmly onto the floor joists. Answer: stable Context: Chao balanced three oranges in a tower on top of each other. Answer: unstable Context: Luca put a round orange on a flat shiny kitchen counter top. Answer:",
+   "cont": "unstable"
+  },
+  "corrupted": {
+   "prompt": "What is the physical outcome in the following contexts? Context: Chao nailed the wooden plank firmly onto the floor joists. Answer: stable Context: Chao balanced three oranges in a tower on top of each other. Answer: unstable Context: Luca placed a trophy on a thick velvet pad in the case. Answer:",
+   "cont": "stable"
+  }
+ },
+ {
+  "domain": "Physics",
+  "domainKey": "phys",
+  "color": "#E67E22",
+  "task": "physics_temperature",
+  "display": "physics temperature",
+  "n_examples": 1000,
+  "clean": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A snowman Nia built in the yard on the morning of a warm spring day. Answer: melt Context: A bowl of soup Nia left on the back porch during a polar vortex event. Answer: freeze Context: A bar of soap left on the edge of a tub full of steaming water. Answer:",
+   "cont": "melt"
+  },
+  "corrupted": {
+   "prompt": "What is the physical outcome in the following contexts? Context: A snowman Nia built in the yard on the morning of a warm spring day. Answer: melt Context: A bowl of soup Nia left on the back porch during a polar vortex event. Answer: freeze Context: A cup of water left in the garage with no heater on a subzero night. Answer:",
+   "cont": "freeze"
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "agent",
+  "display": "agent",
+  "n_examples": 945,
+  "clean": {
+   "prompt": "Ali is in the bakery. Ali sees the candle inside. Do you think that ali doubts that the candle is in the bakery or do you think that ali believes that the candle is in the bakery?",
+   "cont": "Ali believes that the candle is in the bakery."
+  },
+  "corrupted": {
+   "prompt": "Ali is in the bakery. Ali sees the candle outside. Do you think that ali doubts that the candle is in the bakery or do you think that ali believes that the candle is in the bakery?",
+   "cont": "Ali doubts that the candle is in the bakery."
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "social_interactions",
+  "display": "social interactions",
+  "n_examples": 204,
+  "clean": {
+   "prompt": "Ali is making Wei feel worse. Do you think that ali is helping Wei or do you think that ali is coercing Wei?",
+   "cont": "Ali is coercing Wei."
+  },
+  "corrupted": {
+   "prompt": "Ali is making Wei feel better. Do you think that ali is helping Wei or do you think that ali is coercing Wei?",
+   "cont": "Ali is helping Wei."
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "social_relations",
+  "display": "social relations",
+  "n_examples": 288,
+  "clean": {
+   "prompt": "Ali gives orders to Wei. Do you think that ali is Wei's boss or do you think that ali is Wei's subordinate?",
+   "cont": "Ali is Wei's boss."
+  },
+  "corrupted": {
+   "prompt": "Ali gets orders from Wei. Do you think that ali is Wei's boss or do you think that ali is Wei's subordinate?",
+   "cont": "Ali is Wei's subordinate."
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "desires_goals",
+  "display": "desires goals",
+  "n_examples": 1080,
+  "clean": {
+   "prompt": "Ali goes to the gym every day. What does Ali want?",
+   "cont": "Ali wants to exercise"
+  },
+  "corrupted": {
+   "prompt": "Ali goes to the library every day. What does Ali want?",
+   "cont": "Ali wants to study"
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "primary_emotions",
+  "display": "primary emotions",
+  "n_examples": 1295,
+  "clean": {
+   "prompt": "Ali just won the competition. How does Ali feel?",
+   "cont": "Ali feels joyful"
+  },
+  "corrupted": {
+   "prompt": "Ali just lost the competition. How does Ali feel?",
+   "cont": "Ali feels sad"
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "secondary_emotions",
+  "display": "secondary emotions",
+  "n_examples": 1600,
+  "clean": {
+   "prompt": "Ali lauded Wei in front of the class. How does Wei feel?",
+   "cont": "Wei feels proud"
+  },
+  "corrupted": {
+   "prompt": "Ali shamed Wei in front of the class. How does Wei feel?",
+   "cont": "Wei feels ashamed"
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "emotion_fewshot",
+  "display": "emotion fewshot",
+  "n_examples": 2000,
+  "clean": {
+   "prompt": "What are the inferred emotions in the following contexts? Context: Omar was rejected from every single school. Answer: sadness Context: Omar adopted a cute puppy from a shelter. Answer: joy Context: Mei hosted a party but nobody came over. Answer:",
+   "cont": "sadness"
+  },
+  "corrupted": {
+   "prompt": "What are the inferred emotions in the following contexts? Context: Omar was rejected from every single school. Answer: sadness Context: Omar adopted a cute puppy from a shelter. Answer: joy Context: Mei saw the northern lights for a night. Answer:",
+   "cont": "joy"
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "norm_appropriate",
+  "display": "norm appropriate",
+  "n_examples": 2000,
+  "clean": {
+   "prompt": "What is the social norm judgment for the following contexts? Context: Aya showed up on time to a gathering the friend had planned carefully. Answer: appropriate Context: Aya cut in front of several people claiming not to have seen the queue. Answer: inappropriate Context: Luca opened a sibling's package that was clearly addressed to them. Answer:",
+   "cont": "inappropriate"
+  },
+  "corrupted": {
+   "prompt": "What is the social norm judgment for the following contexts? Context: Aya showed up on time to a gathering the friend had planned carefully. Answer: appropriate Context: Aya cut in front of several people claiming not to have seen the queue. Answer: inappropriate Context: Luca gave a friend space after they said they needed time alone. Answer:",
+   "cont": "appropriate"
+  }
+ },
+ {
+  "domain": "Social",
+  "domainKey": "ToM",
+  "color": "#27AE60",
+  "task": "norm_moral",
+  "display": "norm moral",
+  "n_examples": 2000,
+  "clean": {
+   "prompt": "What is the moral judgment for the following contexts? Context: Dylan submitted an insurance claim for damage that had already been repaired. Answer: immoral Context: Dylan disclosed a personal relationship with a candidate before the hiring decision. Answer: moral Context: Ali let a colleague take the blame for a shared mistake without speaking up. Answer:",
+   "cont": "immoral"
+  },
+  "corrupted": {
+   "prompt": "What is the moral judgment for the following contexts? Context: Dylan submitted an insurance claim for damage that had already been repaired. Answer: immoral Context: Dylan disclosed a personal relationship with a candidate before the hiring decision. Answer: moral Context: Ali refused to lie to cover for a friend who had done something harmful. Answer:",
+   "cont": "moral"
+  }
+ }
+]
