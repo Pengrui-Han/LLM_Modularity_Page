@@ -1,0 +1,25 @@
+# ── Local-only — not part of the published website ──
+
+# macOS junk
+.DS_Store
+**/.DS_Store
+
+# Node tooling (used only for local screenshots / tweet recording)
+node_modules/
+package.json
+package-lock.json
+
+# Twitter/X promo assets — local only
+twitter/
+
+# Source figure exports (the site uses the copies in assets/figures/)
+Final_Figs/
+
+# Manuscript PDFs — not linked from the site (paper under review).
+# Delete these two lines and `git add` them if you want to host them in the repo.
+Paper.pdf
+SI.pdf
+
+# Stale figure exports not referenced by the site
+assets/figures/chord_new.png
+assets/figures/layer_stacked_v2.png
