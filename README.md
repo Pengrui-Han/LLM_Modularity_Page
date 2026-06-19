@@ -1,7 +1,7 @@
-# Project page — Emergence of a Human-like Modular Cognitive Architecture in LLMs
+# Project page — Modular Cognitive Architecture Emerges in Large Language Models
 
-Static project page for the paper *"Emergence of a Human-like Modular Cognitive
-Architecture in Large Language Models."*
+
+Static project page for the paper *"Modular Cognitive Architecture Emerges in Large Language Models."*
 
 **Live site:** https://pengrui-han.github.io/LLM_Modularity_Page/
 (enable in repo *Settings → Pages → Deploy from branch → `main` / root*)
